@@ -12,6 +12,7 @@
     .navigation-sidebar .list-group-item { border: none; color: #9ca3af; background: transparent; text-align: left; }
     .navigation-sidebar .list-group-item:hover, .navigation-sidebar .list-group-item.active { background-color: #1f2937; color: #38bdf8; }
     .form-control, .form-select { background-color: #1f2937; border: 1px solid #374151; color: #ffffff; }
+    .form-control::placeholder { color: #4b5563; }
     .table-dark-custom { --bs-table-bg: #111827; color: #e2e8f0; font-size: 0.85rem; border-color: #1f2937; }
   </style>
 </head>
@@ -21,7 +22,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
       <div>
         <h1 class="h3 fw-bold text-white mb-0">🛡️ SYSTEM ADMINISTRATION PANEL</h1>
-        <span class="badge bg-success mt-1 text-uppercase font-monospace" id="lblConsoleRoleContextProfileType">Resolving Account Role...</span>
+        <span class="badge bg-success mt-1 text-uppercase font-monospace" id="lblConsoleRoleContextProfileType">Validating Privileges...</span>
       </div>
       <button class="btn btn-outline-danger btn-sm px-4" onclick="AdminEngine.terminateConsoleTokenContext()">Logout and Exit</button>
     </div>
@@ -44,8 +45,8 @@
           <form onsubmit="AdminEngine.executeSchoolNodeProvisioning(event)" class="mb-4 p-3 border border-secondary rounded">
             <div class="row g-3">
               <div class="col-md-4"><label class="form-label small text-muted">Branch / Campus Code</label><input type="text" id="schCode" class="form-control" placeholder="e.g. LILLY-01" required></div>
-              <div class="col-md-4"><label class="form-label small text-muted">Official School Name</label><input type="text" id="schName" class="form-control" required></div>
-              <div class="col-md-4"><label class="form-label small text-muted">Principal Name</label><input type="text" id="schPrincipal" class="form-control" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Official School Name</label><input type="text" id="schName" class="form-control" placeholder="e.g. The Lilly School Campus A" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Principal Name</label><input type="text" id="schPrincipal" class="form-control" placeholder="Enter principal's full name" required></div>
             </div>
             <button type="submit" class="btn btn-info btn-sm fw-bold mt-3 px-4 text-dark">Save Branch Database Record</button>
           </form>
@@ -57,8 +58,14 @@
           <h4 class="fw-bold text-white mb-3">Setup Academic Class Configurations</h4>
           <form onsubmit="AdminEngine.executeAcademicStructureModalityAllocation(event)" class="p-3 border border-secondary rounded">
             <div class="row g-3">
-              <div class="col-md-4"><label class="form-label small text-muted">Record Entry Type</label><select id="stType" class="form-select"><option value="CLASS">Class Definition Node</option></select></div>
-              <div class="col-md-4"><label class="form-label small text-muted">Class Name</label><input type="text" id="stName" class="form-control" required></div>
+              <div class="col-md-4">
+                <label class="form-label small text-muted">Record Entry Type</label>
+                <select id="stType" class="form-select">
+                  <option value="" disabled selected>-- Choose Structure Type --</option>
+                  <option value="CLASS">Class Definition Node</option>
+                </select>
+              </div>
+              <div class="col-md-4"><label class="form-label small text-muted">Class Name</label><input type="text" id="stName" class="form-control" placeholder="e.g. Class 10th / Matric" required></div>
               <div class="col-md-4"><label class="form-label small text-muted">Unique Class Code Identifier</label><input type="text" id="stCode" class="form-control" placeholder="e.g. CLASS-10" required></div>
             </div>
             <button type="submit" class="btn btn-warning btn-sm fw-bold mt-3 px-4 text-dark">Add Class Structure to System</button>
@@ -69,10 +76,16 @@
           <h4 class="fw-bold text-white mb-3">Register New Student / Teacher Profiles</h4>
           <form onsubmit="AdminEngine.executeSingleMemberRegistrationPipeline(event)" class="p-3 border border-secondary rounded">
             <div class="row g-3">
-              <div class="col-md-3"><label class="form-label small text-muted">Select Target Role</label><select id="mbRole" class="form-select"><option value="STUDENT">Student</option></select></div>
-              <div class="col-md-3"><label class="form-label small text-muted">Member Full Name</label><input type="text" id="mbName" class="form-control" required></div>
-              <div class="col-md-3"><label class="form-label small text-muted">System Email Address</label><input type="email" id="mbEmail" class="form-control" required></div>
-              <div class="col-md-3"><label class="form-label small text-muted">Contact Phone Number</label><input type="text" id="mbPhone" class="form-control" required></div>
+              <div class="col-md-3">
+                <label class="form-label small text-muted">Select Target Role</label>
+                <select id="mbRole" class="form-select">
+                  <option value="" disabled selected>-- Select Role --</option>
+                  <option value="STUDENT">Student</option>
+                </select>
+              </div>
+              <div class="col-md-3"><label class="form-label small text-muted">Member Full Name</label><input type="text" id="mbName" class="form-control" placeholder="Enter student full name" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">System Email Address</label><input type="email" id="mbEmail" class="form-control" placeholder="student@school.com" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">Contact Phone Number</label><input type="text" id="mbPhone" class="form-control" placeholder="e.g. +923001234567" required></div>
             </div>
             <button type="submit" class="btn btn-success btn-sm fw-bold mt-3 px-4">Save Profile to System Ledger</button>
           </form>
@@ -81,7 +94,7 @@
         <div id="panel-tab-bulk" class="admin-view-panel control-panel-card p-4 d-none">
           <h4 class="fw-bold text-white mb-2">High-Volume Automated Bulk Import (CSV Engine)</h4>
           <div class="p-4 border border-secondary rounded bg-black-50 text-center">
-            <input type="file" id="inputCsvUploaderTargetNode" class="form-control w-50 mx-auto bg-dark border-secondary mb-3" accept=".csv">
+            <input type="file" id="inputCsvUploaderTargetNode" class="form-control w-50 mx-auto bg-dark border-secondary mb-3" accept=".csv" placeholder="Select your bulk CSV file framework">
             <button class="btn btn-primary btn-sm fw-bold px-5" onclick="AdminEngine.executeBulkBatchCsvIngestionProcess()">Execute Parsing Lifecycle Pipeline Run</button>
           </div>
         </div>
@@ -90,7 +103,6 @@
   </div>
 
   <script>
-    // FIXED BACKEND URL INTEGRATION
     const API_TARGET = "https://script.google.com/macros/s/AKfycbx9QMMQUrtbEkb5yG0Ix5Q6ftnBomTKw_MyHKPc0oid1KV0CijAGAFzRBJHDXL--y7P/exec";
 
     const AdminEngine = {
@@ -119,12 +131,13 @@
       },
       executeAcademicStructureModalityAllocation: async function(e) {
         e.preventDefault();
+        if(!document.getElementById("stType").value){ alert("Please select a record type."); return; }
         const res = await this.invokeApiRoute({ action: "create_academic_structure", structure_type: document.getElementById("stType").value, class_name: document.getElementById("stName").value, class_code: document.getElementById("stCode").value });
         if(res.success) alert("Class allocation recorded successfully.");
       },
       executeSingleMemberRegistrationPipeline: async function(e) {
         e.preventDefault();
-        // FIXED payload structure to prevent database failure
+        if(!document.getElementById("mbRole").value){ alert("Please select a target role."); return; }
         const res = await this.invokeApiRoute({ 
           action: "register_member", 
           role: document.getElementById("mbRole").value, 
@@ -134,36 +147,35 @@
           class_id: "", 
           section_id: "" 
         });
-        if(res.success) {
-          alert("Member database profile created successfully.");
-          e.target.reset();
-        } else {
-          alert("Error: " + res.error);
-        }
+        if(res.success) { alert("Member database profile created successfully."); e.target.reset(); } 
+        else { alert("Error: " + res.error); }
       },
       executeBulkBatchCsvIngestionProcess: function() {
         const fileInputNode = document.getElementById("inputCsvUploaderTargetNode");
-        if(fileInputNode.files.length === 0) return alert("Please select a valid CSV template configuration file framework path node string.");
+        if(fileInputNode.files.length === 0) return alert("Please select a valid CSV template file framework.");
         const selectedFileContext = fileInputNode.files[0];
         const fileStreamReader = new FileReader();
         fileStreamReader.onload = async (event) => {
           const rawTextContentStream = event.target.result;
           const res = await this.invokeApiRoute({ action: "bulk_import_members", csv_stream: rawTextContentStream });
-          if(res.success) alert("Bulk high density matrix datasets block records elements injected perfectly inside the backend data frameworks structures.");
+          if(res.success) alert("Bulk matrix records element injected perfectly inside the backend.");
         };
         fileStreamReader.readAsText(selectedFileContext);
       },
-      terminateConsoleTokenContext: function() { localStorage.clear(); window.location.href = "index.html"; }
+      terminateConsoleTokenContext: function() { 
+        localStorage.clear(); 
+        window.location.replace("index.html"); 
+      }
     };
 
     document.addEventListener("DOMContentLoaded", () => {
       const token = localStorage.getItem("saas_user_token");
       const profile = JSON.parse(localStorage.getItem("saas_profile") || "{}");
       if(!token || (profile.role !== "SUPER_ADMIN" && profile.role !== "SCHOOL_ADMIN")) {
-        window.location.href = "index.html";
+        window.location.replace("index.html");
       } else {
         document.getElementById("lblConsoleRoleContextProfileType").innerText = `System Execution Role Profile Type State: ${profile.role}`;
-        AdminEngine.toggleTab('tenants');
+        AdminEngine.pullTenantSchoolsGridDatasetRecords();
       }
     });
   </script>

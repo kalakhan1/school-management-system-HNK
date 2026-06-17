@@ -3,211 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School ERP SaaS - Public Portal</title>
+  <title>Admin Panel - School Control Station</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    :root { --slate-dark: #0f172a; --slate-card: #1e293b; --emerald-accent: #10b981; }
-    body { background-color: #f1f5f9; font-family: system-ui, sans-serif; color: #334155; }
-    .navbar-custom { background-color: var(--slate-dark); border-bottom: 3px solid var(--emerald-accent); }
-    .hidden-panel { display: none !important; }
-    .hero-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; border-radius: 16px; }
-    .interactive-card { border: none; border-radius: 12px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .btn-emerald { background-color: var(--emerald-accent); color: white; font-weight: 600; border-radius: 8px; }
-    .btn-emerald:hover { background-color: #059669; color: white; }
+    body { background-color: #0b0f19; color: #e2e8f0; font-family: system-ui, sans-serif; }
+    .control-panel-card { background-color: #111827; border: 1px solid #1f2937; border-radius: 12px; box-shadow: 0 10px 15px rgba(0,0,0,0.3); }
+    .navigation-sidebar { background-color: #111827; border: 1px solid #1f2937; border-radius: 12px; }
+    .navigation-sidebar .list-group-item { border: none; color: #9ca3af; background: transparent; text-align: left; }
+    .navigation-sidebar .list-group-item:hover, .navigation-sidebar .list-group-item.active { background-color: #1f2937; color: #38bdf8; }
+    .form-control, .form-select { background-color: #1f2937; border: 1px solid #374151; color: #ffffff; }
+    .table-dark-custom { --bs-table-bg: #111827; color: #e2e8f0; font-size: 0.85rem; border-color: #1f2937; }
   </style>
 </head>
-<body>
+<body class="py-4">
 
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom py-3">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#" onclick="UI_Router.navigate('home')">🏫 SCHOOL ERP SaaS</a>
-      <div class="ms-auto d-flex gap-2">
-        <button class="btn btn-sm btn-outline-light" onclick="UI_Router.navigate('directory')">Directories</button>
-        <button class="btn btn-sm btn-outline-light" onclick="UI_Router.navigate('verify')">Card Verify</button>
-        <button class="btn btn-sm btn-outline-light" onclick="UI_Router.navigate('register_member')">Join Member</button>
-        <button class="btn btn-emerald btn-sm px-3" onclick="UI_Router.navigate('login')">Console Login</button>
+  <div class="container-fluid px-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+      <div>
+        <h1 class="h3 fw-bold text-white mb-0">🛡️ SYSTEM ADMINISTRATION PANEL</h1>
+        <span class="badge bg-success mt-1 text-uppercase font-monospace" id="lblConsoleRoleContextProfileType">Resolving Account Role...</span>
       </div>
-    </div>
-  </nav>
-
-  <div class="container my-5">
-    
-    <div id="view-home" class="view-panel hero-card p-5 text-center shadow-lg">
-      <h1 class="display-4 fw-bold mb-3">Enterprise Multi-School ERP Engine</h1>
-      <p class="lead mb-4">Pure Static Frontend seamlessly operating cross-origin with Google Cloud Backend.</p>
-      <button class="btn btn-emerald btn-lg px-4" onclick="UI_Router.navigate('registerSchool')">Register New School Instance</button>
+      <button class="btn btn-outline-danger btn-sm px-4" onclick="AdminEngine.terminateConsoleTokenContext()">Logout and Exit</button>
     </div>
 
-    <div id="view-directory" class="view-panel hidden-panel interactive-card p-4">
-      <h3 class="fw-bold mb-4 border-bottom pb-2">Institutional Public Cluster Directories</h3>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <h5>🎓 Active Students Registry</h5>
-          <ul class="list-group" id="studentGridTarget"></ul>
-        </div>
-        <div class="col-md-6">
-          <h5>👔 Active Faculty Teachers</h5>
-          <ul class="list-group" id="teacherGridTarget"></ul>
-        </div>
-      </div>
-    </div>
-
-    <div id="view-verify" class="view-panel hidden-panel interactive-card p-4 mx-auto" style="max-width: 500px;">
-      <h4 class="fw-bold text-center mb-3">QR Pointer Asset Verification</h4>
-      <input type="text" id="inputCardPointerHash" class="form-control text-center font-monospace mb-3" placeholder="Enter QR Pointer Hash">
-      <button class="btn btn-emerald w-100 py-2" onclick="AppEngine.assertCardValidityState()">Assert Validity Status</button>
-      <div id="wrapperVerificationFeedback" class="mt-3 p-3 border rounded hidden-panel"></div>
-    </div>
-
-    <div id="view-registerSchool" class="view-panel hidden-panel interactive-card p-4">
-      <h3 class="fw-bold border-bottom pb-2 mb-4">Onboard Corporate Institutional Campus Entity</h3>
-      <form onsubmit="AppEngine.dispatchTenantDeploymentPipeline(event)">
-        <div class="row g-3">
-          <div class="col-md-6"><label class="form-label">School Name</label><input type="text" id="tsName" class="form-control" required></div>
-          <div class="col-md-6"><label class="form-label">Principal Context Name</label><input type="text" id="tsPrincipal" class="form-control" required></div>
-          <div class="col-md-4"><label class="form-label">City Scope</label><input type="text" id="tsCity" class="form-control" required></div>
-          <div class="col-md-4"><label class="form-label">Admin Email</label><input type="email" id="tsEmail" class="form-control" required></div>
-          <div class="col-md-4"><label class="form-label">Admin Password</label><input type="password" id="tsPass" class="form-control" required></div>
-        </div>
-        <button type="submit" class="btn btn-emerald mt-4 px-5">Instantiate Core Tenant Matrix</button>
-      </form>
-    </div>
-
-    <div id="view-register_member" class="view-panel hidden-panel interactive-card p-4">
-      <h3 class="fw-bold border-bottom pb-2 mb-4">Membership Admission Request Form</h3>
-      <form onsubmit="AppEngine.dispatchMemberApplicationPipeline(event)">
-        <div class="row g-3">
-          <div class="col-md-4">
-            <label class="form-label">Target Stream Role</label>
-            <select id="tmRole" class="form-select"><option value="STUDENT">Student Membership Track</option><option value="TEACHER">Faculty Teacher Node</option></select>
-          </div>
-          <div class="col-md-4"><label class="form-label">Full Profile Holder Name</label><input type="text" id="tmName" class="form-control" required></div>
-          <div class="col-md-4"><label class="form-label">Tracking Email</label><input type="email" id="tmEmail" class="form-control" required></div>
-          <div class="col-md-12"><label class="form-label">Contact Phone</label><input type="text" id="tmPhone" class="form-control" required></div>
-        </div>
-        <button type="submit" class="btn btn-emerald mt-4 px-4">Submit Application Stream Node</button>
-      </form>
-    </div>
-
-    <div id="view-login" class="view-panel hidden-panel interactive-card p-4 mx-auto" style="max-width: 400px; border-top: 4px solid var(--emerald-accent);">
-      <h3 class="fw-bold mb-3">Access Gateway</h3>
-      <form onsubmit="AppEngine.executeAuthorizationChallenge(event)">
-        <div class="mb-3"><label class="form-label">System Email Identifier</label><input type="text" id="authEmail" class="form-control" required></div>
-        <div class="mb-4"><label class="form-label">Credential Password Encryption Key</label><input type="password" id="authPass" class="form-control" required></div>
-        <button type="submit" class="btn btn-dark w-100 py-2 fw-bold" style="background-color: var(--slate-dark);">Assert Security Framework Token</button>
-      </form>
-    </div>
-
-    <div id="view-standardDashboard" class="view-panel hidden-panel interactive-card p-4">
-      <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-        <div><h2 class="fw-bold text-dark mb-0">Workspace Control Console</h2><span class="badge bg-dark mt-1" id="badgeConsoleAccountProfileType">STUDENT</span></div>
-        <button class="btn btn-sm btn-outline-danger" onclick="AppEngine.killActiveTokenSession()">Destroy Active Token Session</button>
-      </div>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="p-3 border rounded bg-light">
-            <h6 class="fw-bold border-bottom pb-2 mb-3">Overhaul Identity Account Access</h6>
-            <div class="mb-2"><label class="small text-muted mb-1">New Email Alias</label><input type="email" id="updEmail" class="form-control form-control-sm"></div>
-            <div class="mb-3"><label class="small text-muted mb-1">New Access Key</label><input type="password" id="updPass" class="form-control form-control-sm"></div>
-            <button class="btn btn-sm btn-dark w-100" onclick="AppEngine.executeCredentialModModification()">Overhaul Settings Row</button>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="navigation-sidebar p-2 shadow-sm">
+          <div class="list-group list-group-flush gap-1">
+            <button class="list-group-item list-group-item-action rounded active" id="btn-tab-tenants" onclick="AdminEngine.toggleTab('tenants')">🏢 1. Manage School Branches</button>
+            <button class="list-group-item list-group-item-action rounded" id="btn-tab-academics" onclick="AdminEngine.toggleTab('academics')">🏫 2. Manage Classes Setup</button>
+            <button class="list-group-item list-group-item-action rounded" id="btn-tab-identities" onclick="AdminEngine.toggleTab('identities')">👤 3. Register New Member</button>
+            <button class="list-group-item list-group-item-action rounded" id="btn-tab-bulk" onclick="AdminEngine.toggleTab('bulk')">📁 4. Bulk CSV Data Import</button>
           </div>
         </div>
-        <div class="col-md-8">
-          <div class="p-4 border rounded bg-white text-center h-100 d-flex flex-column justify-content-center border-dashed">
-            <span>📋</span><p class="mb-0 fw-medium small text-secondary">Authorized profile data segment loaded flawlessly. Dynamic system log events recorded down safely on spreadsheets arrays.</p>
+      </div>
+
+      <div class="col-md-9">
+        <div id="panel-tab-tenants" class="admin-view-panel control-panel-card p-4">
+          <h4 class="fw-bold text-white mb-3">Add New Campus or School Branch</h4>
+          <form onsubmit="AdminEngine.executeSchoolNodeProvisioning(event)" class="mb-4 p-3 border border-secondary rounded">
+            <div class="row g-3">
+              <div class="col-md-4"><label class="form-label small text-muted">Branch / Campus Code</label><input type="text" id="schCode" class="form-control" placeholder="e.g. LILLY-01" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Official School Name</label><input type="text" id="schName" class="form-control" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Principal Name</label><input type="text" id="schPrincipal" class="form-control" required></div>
+            </div>
+            <button type="submit" class="btn btn-info btn-sm fw-bold mt-3 px-4 text-dark">Save Branch Database Record</button>
+          </form>
+          <h5 class="fw-bold text-white mb-3">Active Registered Branches</h5>
+          <div class="table-responsive"><table class="table table-dark-custom table-striped"><thead><tr><th>Branch Code</th><th>School Name</th><th>System Status</th></tr></thead><tbody id="gridContainerTenantSchoolsBody"></tbody></table></div>
+        </div>
+
+        <div id="panel-tab-academics" class="admin-view-panel control-panel-card p-4 d-none">
+          <h4 class="fw-bold text-white mb-3">Setup Academic Class Configurations</h4>
+          <form onsubmit="AdminEngine.executeAcademicStructureModalityAllocation(event)" class="p-3 border border-secondary rounded">
+            <div class="row g-3">
+              <div class="col-md-4"><label class="form-label small text-muted">Record Entry Type</label><select id="stType" class="form-select"><option value="CLASS">Class Definition Node</option></select></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Class Name</label><input type="text" id="stName" class="form-control" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Unique Class Code Identifier</label><input type="text" id="stCode" class="form-control" placeholder="e.g. CLASS-10" required></div>
+            </div>
+            <button type="submit" class="btn btn-warning btn-sm fw-bold mt-3 px-4 text-dark">Add Class Structure to System</button>
+          </form>
+        </div>
+
+        <div id="panel-tab-identities" class="admin-view-panel control-panel-card p-4 d-none">
+          <h4 class="fw-bold text-white mb-3">Register New Student / Teacher Profiles</h4>
+          <form onsubmit="AdminEngine.executeSingleMemberRegistrationPipeline(event)" class="p-3 border border-secondary rounded">
+            <div class="row g-3">
+              <div class="col-md-3"><label class="form-label small text-muted">Select Target Role</label><select id="mbRole" class="form-select"><option value="STUDENT">Student</option></select></div>
+              <div class="col-md-3"><label class="form-label small text-muted">Member Full Name</label><input type="text" id="mbName" class="form-control" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">System Email Address</label><input type="email" id="mbEmail" class="form-control" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">Contact Phone Number</label><input type="text" id="mbPhone" class="form-control" required></div>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm fw-bold mt-3 px-4">Save Profile to System Ledger</button>
+          </form>
+        </div>
+
+        <div id="panel-tab-bulk" class="admin-view-panel control-panel-card p-4 d-none">
+          <h4 class="fw-bold text-white mb-2">High-Volume Automated Bulk Import (CSV Engine)</h4>
+          <div class="p-4 border border-secondary rounded bg-black-50 text-center">
+            <input type="file" id="inputCsvUploaderTargetNode" class="form-control w-50 mx-auto bg-dark border-secondary mb-3" accept=".csv">
+            <button class="btn btn-primary btn-sm fw-bold px-5" onclick="AdminEngine.executeBulkBatchCsvIngestionProcess()">Execute Parsing Lifecycle Pipeline Run</button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 
   <script>
+    // FIXED BACKEND URL INTEGRATION
     const API_TARGET = "https://script.google.com/macros/s/AKfycbx9QMMQUrtbEkb5yG0Ix5Q6ftnBomTKw_MyHKPc0oid1KV0CijAGAFzRBJHDXL--y7P/exec";
 
-    const UI_Router = {
-      navigate: function(viewId) {
-        document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden-panel'));
-        const targetNode = document.getElementById(`view-${viewId}`);
-        if(targetNode) targetNode.classList.remove('hidden-panel');
-        if(viewId === 'directory') AppEngine.pullPublicDirectoryRegistryData();
-      }
-    };
-
-    const AppEngine = {
+    const AdminEngine = {
       invokeApiRoute: async function(payloadData) {
-        const activeToken = localStorage.getItem("saas_user_token");
-        if(activeToken) payloadData.token = activeToken;
+        payloadData.token = localStorage.getItem("saas_user_token");
         const responseStream = await fetch(API_TARGET, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payloadData) });
         return await responseStream.json();
       },
-      executeAuthorizationChallenge: async function(e) {
-        e.preventDefault();
-        const res = await this.invokeApiRoute({ action: "authenticate", email: document.getElementById("authEmail").value, password: document.getElementById("authPass").value });
+      toggleTab: function(tabId) {
+        document.querySelectorAll('.admin-view-panel').forEach(p => p.classList.add('d-none'));
+        document.querySelectorAll('.navigation-sidebar .list-group-item').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`panel-tab-${tabId}`).classList.remove('d-none');
+        document.getElementById(`btn-tab-${tabId}`).classList.add('active');
+        if(tabId === 'tenants') this.pullTenantSchoolsGridDatasetRecords();
+      },
+      pullTenantSchoolsGridDatasetRecords: async function() {
+        const res = await this.invokeApiRoute({ action: "list_schools" });
         if(res.success) {
-          localStorage.setItem("saas_user_token", res.token);
-          localStorage.setItem("saas_profile", JSON.stringify(res.userProfile));
-          if(res.userProfile.role === "SUPER_ADMIN" || res.userProfile.role === "SCHOOL_ADMIN") {
-            window.location.href = "admin.html";
-          } else {
-            UI_Router.navigate('standardDashboard');
-            document.getElementById("badgeConsoleAccountProfileType").innerText = res.userProfile.role;
-          }
-        } else alert("Access Denied: Invalid Credentials.");
-      },
-      dispatchTenantDeploymentPipeline: async function(e) {
-        e.preventDefault();
-        const res = await this.invokeApiRoute({
-          action: "register_tenant_school", school_name: document.getElementById("tsName").value, principal: document.getElementById("tsPrincipal").value,
-          city: document.getElementById("tsCity").value, country: "Pakistan", admin_email: document.getElementById("tsEmail").value, admin_password: document.getElementById("tsPass").value
-        });
-        if(res.success) { alert("Tenant setup pipeline completely initialized inside the Sheets core database."); UI_Router.navigate('login'); }
-      },
-      dispatchMemberApplicationPipeline: async function(e) {
-        e.preventDefault();
-        const res = await this.invokeApiRoute({
-          action: "register_member", role: document.getElementById("tmRole").value, full_name: document.getElementById("tmName").value,
-          email: document.getElementById("tmEmail").value, phone: document.getElementById("tmPhone").value
-        });
-        if(res.success) alert("Application packet recorded flawlessly.");
-      },
-      pullPublicDirectoryRegistryData: async function() {
-        const res = await this.invokeApiRoute({ action: "fetch_public_directories" });
-        if(res.success) {
-          document.getElementById("studentGridTarget").innerHTML = res.students.map(s => `<li class="list-group-item d-flex justify-content-between"><span><strong>${s.full_name}</strong></span></li>`).join('');
-          document.getElementById("teacherGridTarget").innerHTML = res.teachers.map(t => `<li class="list-group-item d-flex justify-content-between"><span><strong>${t.full_name}</strong></span></li>`).join('');
+          document.getElementById("gridContainerTenantSchoolsBody").innerHTML = res.data.map(s => `<tr><td class="font-monospace text-info">${s.school_code}</td><td><strong>${s.school_name}</strong></td><td><span class="badge bg-success">${s.status}</span></td></tr>`).join('');
         }
       },
-      assertCardValidityState: async function() {
-        const res = await this.invokeApiRoute({ action: "public_verify_card", qr_pointer: document.getElementById("inputCardPointerHash").value });
-        const box = document.getElementById("wrapperVerificationFeedback");
-        box.classList.remove('hidden-panel');
+      executeSchoolNodeProvisioning: async function(e) {
+        e.preventDefault();
+        const res = await this.invokeApiRoute({ action: "create_school", school_code: document.getElementById("schCode").value, school_name: document.getElementById("schName").value, principal_name: document.getElementById("schPrincipal").value });
+        if(res.success) { alert("School Branch configured cleanly into database."); this.pullTenantSchoolsGridDatasetRecords(); }
+      },
+      executeAcademicStructureModalityAllocation: async function(e) {
+        e.preventDefault();
+        const res = await this.invokeApiRoute({ action: "create_academic_structure", structure_type: document.getElementById("stType").value, class_name: document.getElementById("stName").value, class_code: document.getElementById("stCode").value });
+        if(res.success) alert("Class allocation recorded successfully.");
+      },
+      executeSingleMemberRegistrationPipeline: async function(e) {
+        e.preventDefault();
+        // FIXED payload structure to prevent database failure
+        const res = await this.invokeApiRoute({ 
+          action: "register_member", 
+          role: document.getElementById("mbRole").value, 
+          full_name: document.getElementById("mbName").value, 
+          email: document.getElementById("mbEmail").value, 
+          phone: document.getElementById("mbPhone").value,
+          class_id: "", 
+          section_id: "" 
+        });
         if(res.success) {
-          box.className = "mt-3 p-3 border rounded bg-success-subtle text-success";
-          box.innerHTML = `<strong>Confirmed:</strong> Status matching active network is ${res.status}. Allocation Serial: <code>${res.serial}</code>`;
+          alert("Member database profile created successfully.");
+          e.target.reset();
         } else {
-          box.className = "mt-3 p-3 border rounded bg-danger-subtle text-danger";
-          box.innerHTML = `<strong>Error:</strong> Identity context verification failed completely.`;
+          alert("Error: " + res.error);
         }
       },
-      executeCredentialModModification: async function() {
-        const res = await this.invokeApiRoute({ action: "update_security_profile", newEmail: document.getElementById("updEmail").value, newPassword: document.getElementById("updPass").value });
-        if(res.success) alert("Profile parameter overwritten cleanly.");
+      executeBulkBatchCsvIngestionProcess: function() {
+        const fileInputNode = document.getElementById("inputCsvUploaderTargetNode");
+        if(fileInputNode.files.length === 0) return alert("Please select a valid CSV template configuration file framework path node string.");
+        const selectedFileContext = fileInputNode.files[0];
+        const fileStreamReader = new FileReader();
+        fileStreamReader.onload = async (event) => {
+          const rawTextContentStream = event.target.result;
+          const res = await this.invokeApiRoute({ action: "bulk_import_members", csv_stream: rawTextContentStream });
+          if(res.success) alert("Bulk high density matrix datasets block records elements injected perfectly inside the backend data frameworks structures.");
+        };
+        fileStreamReader.readAsText(selectedFileContext);
       },
-      killActiveTokenSession: function() { localStorage.clear(); window.location.reload(); }
+      terminateConsoleTokenContext: function() { localStorage.clear(); window.location.href = "index.html"; }
     };
 
     document.addEventListener("DOMContentLoaded", () => {
       const token = localStorage.getItem("saas_user_token");
       const profile = JSON.parse(localStorage.getItem("saas_profile") || "{}");
-      if(token && profile.role) {
-        if(profile.role === "SUPER_ADMIN" || profile.role === "SCHOOL_ADMIN") {
-          window.location.href = "admin.html";
-        } else {
-          UI_Router.navigate('standardDashboard');
-          document.getElementById("badgeConsoleAccountProfileType").innerText = profile.role;
-        }
-      } else { UI_Router.navigate('home'); }
+      if(!token || (profile.role !== "SUPER_ADMIN" && profile.role !== "SCHOOL_ADMIN")) {
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("lblConsoleRoleContextProfileType").innerText = `System Execution Role Profile Type State: ${profile.role}`;
+        AdminEngine.toggleTab('tenants');
+      }
     });
   </script>
 </body>

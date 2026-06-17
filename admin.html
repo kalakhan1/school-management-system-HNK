@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School ERP SaaS - Admin Governance Terminal</title>
+  <title>Admin Panel - School Control Station</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background-color: #0b0f19; color: #e2e8f0; font-family: system-ui, sans-serif; }
     .control-panel-card { background-color: #111827; border: 1px solid #1f2937; border-radius: 12px; box-shadow: 0 10px 15px rgba(0,0,0,0.3); }
     .navigation-sidebar { background-color: #111827; border: 1px solid #1f2937; border-radius: 12px; }
-    .navigation-sidebar .list-group-item { border: none; color: #9ca3af; background: transparent; }
+    .navigation-sidebar .list-group-item { border: none; color: #9ca3af; background: transparent; text-align: left; }
     .navigation-sidebar .list-group-item:hover, .navigation-sidebar .list-group-item.active { background-color: #1f2937; color: #38bdf8; }
     .form-control, .form-select { background-color: #1f2937; border: 1px solid #374151; color: #ffffff; }
     .table-dark-custom { --bs-table-bg: #111827; color: #e2e8f0; font-size: 0.85rem; border-color: #1f2937; }
@@ -20,66 +20,66 @@
   <div class="container-fluid px-5">
     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
       <div>
-        <h1 class="h3 fw-bold text-white mb-0">🛡️ SYSTEM GOVERNANCE STATION CONSOLE</h1>
-        <span class="badge bg-success mt-1 text-uppercase font-monospace" id="lblConsoleRoleContextProfileType">Resolving Role...</span>
+        <h1 class="h3 fw-bold text-white mb-0">🛡️ SYSTEM ADMINISTRATION PANEL</h1>
+        <span class="badge bg-success mt-1 text-uppercase font-monospace" id="lblConsoleRoleContextProfileType">Resolving Account Role...</span>
       </div>
-      <button class="btn btn-outline-danger btn-sm px-4" onclick="AdminEngine.terminateConsoleTokenContext()">Kill Console Session Context</button>
+      <button class="btn btn-outline-danger btn-sm px-4" onclick="AdminEngine.terminateConsoleTokenContext()">Logout and Exit</button>
     </div>
 
     <div class="row g-4">
       <div class="col-md-3">
         <div class="navigation-sidebar p-2 shadow-sm">
           <div class="list-group list-group-flush gap-1">
-            <button class="list-group-item list-group-item-action rounded active" id="btn-tab-tenants" onclick="AdminEngine.toggleTab('tenants')">1. Multi-Tenant Infrastructure Nodes</button>
-            <button class="list-group-item list-group-item-action rounded" id="btn-tab-academics" onclick="AdminEngine.toggleTab('academics')">2. Academic Structure Layout Matrix</button>
-            <button class="list-group-item list-group-item-action rounded" id="btn-tab-identities" onclick="AdminEngine.toggleTab('identities')">3. Member Lifecycles Directories</button>
-            <button class="list-group-item list-group-item-action rounded" id="btn-tab-bulk" onclick="AdminEngine.toggleTab('bulk')">4. Bulk CSV Automated Ingestion</button>
+            <button class="list-group-item list-group-item-action rounded active" id="btn-tab-tenants" onclick="AdminEngine.toggleTab('tenants')">🏢 1. Manage School Branches</button>
+            <button class="list-group-item list-group-item-action rounded" id="btn-tab-academics" onclick="AdminEngine.toggleTab('academics')">🏫 2. Manage Classes Setup</button>
+            <button class="list-group-item list-group-item-action rounded" id="btn-tab-identities" onclick="AdminEngine.toggleTab('identities')">👤 3. Register New Member</button>
+            <button class="list-group-item list-group-item-action rounded" id="btn-tab-bulk" onclick="AdminEngine.toggleTab('bulk')">📁 4. Bulk CSV Data Import</button>
           </div>
         </div>
       </div>
 
       <div class="col-md-9">
         <div id="panel-tab-tenants" class="admin-view-panel control-panel-card p-4">
-          <h4 class="fw-bold text-white mb-3">Multi-Tenant School Node Instantiation Control Pipeline</h4>
+          <h4 class="fw-bold text-white mb-3">Add New Campus or School Branch</h4>
           <form onsubmit="AdminEngine.executeSchoolNodeProvisioning(event)" class="mb-4 p-3 border border-secondary rounded">
             <div class="row g-3">
-              <div class="col-md-4"><label class="form-label small text-muted">Unique Campus Code</label><input type="text" id="schCode" class="form-control" placeholder="e.g. CAMPUS-99" required></div>
-              <div class="col-md-4"><label class="form-label small text-muted">Corporate School Name</label><input type="text" id="schName" class="form-control" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Branch / Campus Code</label><input type="text" id="schCode" class="form-control" placeholder="e.g. LILLY-01" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Official School Name</label><input type="text" id="schName" class="form-control" required></div>
               <div class="col-md-4"><label class="form-label small text-muted">Principal Name</label><input type="text" id="schPrincipal" class="form-control" required></div>
             </div>
-            <button type="submit" class="btn btn-info btn-sm fw-bold mt-3 px-4 text-dark">Deploy Multi-Tenant Record Allocation Row</button>
+            <button type="submit" class="btn btn-info btn-sm fw-bold mt-3 px-4 text-dark">Save Branch Database Record</button>
           </form>
-          <h5 class="fw-bold text-white mb-3">Active Managed Campus Infrastructure Registry Stacks</h5>
-          <div class="table-responsive"><table class="table table-dark-custom table-striped"><thead><tr><th>Code Path</th><th>Campus Label Name</th><th>Status</th></tr></thead><tbody id="gridContainerTenantSchoolsBody"></tbody></table></div>
+          <h5 class="fw-bold text-white mb-3">Active Registered Branches</h5>
+          <div class="table-responsive"><table class="table table-dark-custom table-striped"><thead><tr><th>Branch Code</th><th>School Name</th><th>System Status</th></tr></thead><tbody id="gridContainerTenantSchoolsBody"></tbody></table></div>
         </div>
 
         <div id="panel-tab-academics" class="admin-view-panel control-panel-card p-4 d-none">
-          <h4 class="fw-bold text-white mb-3">Institutional Academic Grid Structural Layout Setup Station</h4>
+          <h4 class="fw-bold text-white mb-3">Setup Academic Class Configurations</h4>
           <form onsubmit="AdminEngine.executeAcademicStructureModalityAllocation(event)" class="p-3 border border-secondary rounded">
             <div class="row g-3">
-              <div class="col-md-4"><label class="form-label small text-muted">Data Model Segment Type</label><select id="stType" class="form-select"><option value="CLASS">Class Frame Definition Record String</option></select></div>
-              <div class="col-md-4"><label class="form-label small text-muted">Class Title Label Text (Urdu Autotranslate Support)</label><input type="text" id="stName" class="form-control" required></div>
-              <div class="col-md-4"><label class="form-label small text-muted">Identifier Code Sequence</label><input type="text" id="stCode" class="form-control" placeholder="e.g. CLS-10B" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Record Entry Type</label><select id="stType" class="form-select"><option value="CLASS">Class Definition Node</option></select></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Class Name</label><input type="text" id="stName" class="form-control" required></div>
+              <div class="col-md-4"><label class="form-label small text-muted">Unique Class Code Identifier</label><input type="text" id="stCode" class="form-control" placeholder="e.g. CLASS-10" required></div>
             </div>
-            <button type="submit" class="btn btn-warning btn-sm fw-bold mt-3 px-4 text-dark">Commit Structural Infrastructure Architecture</button>
+            <button type="submit" class="btn btn-warning btn-sm fw-bold mt-3 px-4 text-dark">Add Class Structure to System</button>
           </form>
         </div>
 
         <div id="panel-tab-identities" class="admin-view-panel control-panel-card p-4 d-none">
-          <h4 class="fw-bold text-white mb-3">Identity Member Lifecycle Directory Provisioning System Core</h4>
+          <h4 class="fw-bold text-white mb-3">Register New Student / Teacher Profiles</h4>
           <form onsubmit="AdminEngine.executeSingleMemberRegistrationPipeline(event)" class="p-3 border border-secondary rounded">
             <div class="row g-3">
-              <div class="col-md-3"><label class="form-label small text-muted">Privilege Role Assignment Matrix Node</label><select id="mbRole" class="form-select"><option value="STUDENT">Student Context Identity Member Track</option></select></div>
-              <div class="col-md-3"><label class="form-label small text-muted">Full Literal Holder Name Variant</label><input type="text" id="mbName" class="form-control" required></div>
-              <div class="col-md-3"><label class="form-label small text-muted">Identity Email Address Channel Pointer</label><input type="email" id="mbEmail" class="form-control" required></div>
-              <div class="col-md-3"><label class="form-label small text-muted">Contact Base Phone Number</label><input type="text" id="mbPhone" class="form-control" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">Select Target Role</label><select id="mbRole" class="form-select"><option value="STUDENT">Student</option></select></div>
+              <div class="col-md-3"><label class="form-label small text-muted">Member Full Name</label><input type="text" id="mbName" class="form-control" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">System Email Address</label><input type="email" id="mbEmail" class="form-control" required></div>
+              <div class="col-md-3"><label class="form-label small text-muted">Contact Phone Number</label><input type="text" id="mbPhone" class="form-control" required></div>
             </div>
-            <button type="submit" class="btn btn-success btn-sm fw-bold mt-3 px-4">Commit Account Data Ingestion Pipeline</button>
+            <button type="submit" class="btn btn-success btn-sm fw-bold mt-3 px-4">Save Profile to System Ledger</button>
           </form>
         </div>
 
         <div id="panel-tab-bulk" class="admin-view-panel control-panel-card p-4 d-none">
-          <h4 class="fw-bold text-white mb-2">Automated High-Density CSV Bulk-Import Ingestion Automation Engine</h4>
+          <h4 class="fw-bold text-white mb-2">High-Volume Automated Bulk Import (CSV Engine)</h4>
           <div class="p-4 border border-secondary rounded bg-black-50 text-center">
             <input type="file" id="inputCsvUploaderTargetNode" class="form-control w-50 mx-auto bg-dark border-secondary mb-3" accept=".csv">
             <button class="btn btn-primary btn-sm fw-bold px-5" onclick="AdminEngine.executeBulkBatchCsvIngestionProcess()">Execute Parsing Lifecycle Pipeline Run</button>
@@ -90,6 +90,7 @@
   </div>
 
   <script>
+    // FIXED BACKEND URL INTEGRATION
     const API_TARGET = "https://script.google.com/macros/s/AKfycbx9QMMQUrtbEkb5yG0Ix5Q6ftnBomTKw_MyHKPc0oid1KV0CijAGAFzRBJHDXL--y7P/exec";
 
     const AdminEngine = {
@@ -114,17 +115,31 @@
       executeSchoolNodeProvisioning: async function(e) {
         e.preventDefault();
         const res = await this.invokeApiRoute({ action: "create_school", school_code: document.getElementById("schCode").value, school_name: document.getElementById("schName").value, principal_name: document.getElementById("schPrincipal").value });
-        if(res.success) { alert("Institutional tenant node deployment lifecycle active status established."); this.pullTenantSchoolsGridDatasetRecords(); }
+        if(res.success) { alert("School Branch configured cleanly into database."); this.pullTenantSchoolsGridDatasetRecords(); }
       },
       executeAcademicStructureModalityAllocation: async function(e) {
         e.preventDefault();
         const res = await this.invokeApiRoute({ action: "create_academic_structure", structure_type: document.getElementById("stType").value, class_name: document.getElementById("stName").value, class_code: document.getElementById("stCode").value });
-        if(res.success) alert("Academic structural component mapping matrix written cleanly.");
+        if(res.success) alert("Class allocation recorded successfully.");
       },
       executeSingleMemberRegistrationPipeline: async function(e) {
         e.preventDefault();
-        const res = await this.invokeApiRoute({ action: "register_member", role: document.getElementById("mbRole").value, full_name: document.getElementById("mbName").value, email: document.getElementById("mbEmail").value, phone: document.getElementById("mbPhone").value });
-        if(res.success) alert("Privilege profile registration transaction block written successfully.");
+        // FIXED payload structure to prevent database failure
+        const res = await this.invokeApiRoute({ 
+          action: "register_member", 
+          role: document.getElementById("mbRole").value, 
+          full_name: document.getElementById("mbName").value, 
+          email: document.getElementById("mbEmail").value, 
+          phone: document.getElementById("mbPhone").value,
+          class_id: "", 
+          section_id: "" 
+        });
+        if(res.success) {
+          alert("Member database profile created successfully.");
+          e.target.reset();
+        } else {
+          alert("Error: " + res.error);
+        }
       },
       executeBulkBatchCsvIngestionProcess: function() {
         const fileInputNode = document.getElementById("inputCsvUploaderTargetNode");
